@@ -3,963 +3,630 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قوة إيليت - مركز اللياقة البدنية | Elite Force Fitness Center</title>
+<title>Omar | تطبيقك</title>
 <style>
-  :root {
-    --primary: #FF6B00;
-    --primary-dark: #CC5500;
-    --secondary: #1A1A2E;
-    --accent: #E94560;
-    --gold: #FFD700;
-    --dark: #0F0F1A;
-    --darker: #080812;
-    --light: #F5F5F5;
-    --gray: #888;
-    --card-bg: #16213E;
-    --text: #E8E8E8;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-    background: var(--dark);
-    color: var(--text);
-    overflow-x: hidden;
-    direction: rtl;
-  }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--darker); }
-  ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-
-  /* ===== NAVIGATION ===== */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    background: rgba(10,10,20,0.95);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid rgba(255,107,0,0.2);
-    transition: all 0.3s ease;
-  }
-
-  nav.scrolled {
-    background: rgba(8,8,18,0.98);
-    box-shadow: 0 4px 30px rgba(255,107,0,0.15);
-  }
-
-  .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 70px;
-  }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-
-  .logo-icon {
-    width: 45px;
-    height: 45px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    font-weight: 900;
-    color: white;
-  }
-
-  .logo-text { line-height: 1.1; }
-  .logo-text .ar { font-size: 18px; font-weight: 700; color: white; }
-  .logo-text .en { font-size: 11px; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; }
-
-  .nav-links {
-    display: flex;
-    gap: 5px;
-    list-style: none;
-    align-items: center;
-  }
-
-  .nav-links a {
-    color: var(--text);
-    text-decoration: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s;
-    white-space: nowrap;
-  }
-
-  .nav-links a:hover {
-    color: var(--primary);
-    background: rgba(255,107,0,0.1);
-  }
-
-  .nav-cta {
-    background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
-    color: white !important;
-    font-weight: 700 !important;
-  }
-
-  .nav-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(255,107,0,0.4) !important;
-    background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
-  }
-
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 5px;
-  }
-
-  .hamburger span {
-    width: 25px;
-    height: 2px;
-    background: var(--primary);
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-  .hamburger.active span:nth-child(2) { opacity: 0; }
-  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-  .mobile-menu {
-    display: none;
-    flex-direction: column;
-    background: rgba(8,8,18,0.98);
-    padding: 20px;
-    gap: 5px;
-    border-top: 1px solid rgba(255,107,0,0.2);
-  }
-
-  .mobile-menu.open { display: flex; }
-
-  .mobile-menu a {
-    color: var(--text);
-    text-decoration: none;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 15px;
-    transition: all 0.3s;
-  }
-
-  .mobile-menu a:hover { color: var(--primary); background: rgba(255,107,0,0.1); }
-
-  /* ===== HERO ===== */
-  #hero {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2D0A0A 50%, #1A1A0A 75%, #0A1A2E 100%);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-
-  .hero-particles {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    animation: floatParticle linear infinite;
-    opacity: 0.3;
-  }
-
-  @keyframes floatParticle {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.3; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-  }
-
-  .hero-bg-text {
-    position: absolute;
-    font-size: clamp(80px, 15vw, 200px);
-    font-weight: 900;
-    color: rgba(255,107,0,0.04);
-    white-space: nowrap;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    letter-spacing: 10px;
-    pointer-events: none;
-    animation: bgTextPulse 4s ease-in-out infinite;
-  }
-
-  @keyframes bgTextPulse {
-    0%, 100% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
-    50% { opacity: 0.5; transform: translate(-50%,-50%) scale(1.02); }
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 0 20px;
-    max-width: 900px;
-    animation: heroFadeIn 1.2s ease forwards;
-  }
-
-  @keyframes heroFadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255,107,0,0.15);
-    border: 1px solid rgba(255,107,0,0.4);
-    color: var(--primary);
-    padding: 8px 20px;
-    border-radius: 50px;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 25px;
-    animation: badgePulse 2s ease-in-out infinite;
-    letter-spacing: 1px;
-  }
-
-  @keyframes badgePulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,0,0.4); }
-    50% { box-shadow: 0 0 0 10px rgba(255,107,0,0); }
-  }
-
-  .hero-title {
-    font-size: clamp(40px, 7vw, 85px);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 10px;
-  }
-
-  .hero-title .main {
-    background: linear-gradient(135deg, #ffffff, #ff6b00, #ffd700);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: block;
-  }
-
-  .hero-title .sub {
-    color: rgba(255,255,255,0.5);
-    font-size: 0.45em;
-    font-weight: 400;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    display: block;
-    margin-top: 10px;
-  }
-
-  .hero-desc {
-    font-size: clamp(14px, 2vw, 18px);
-    color: rgba(255,255,255,0.7);
-    margin: 20px 0 40px;
-    line-height: 1.8;
-    max-width: 650px;
-    margin-inline: auto;
-    margin-top: 20px;
-    margin-bottom: 40px;
-  }
-
-  .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-  }
-
-  .hero-stat {
-    text-align: center;
-    animation: statsFadeIn 1s ease forwards;
-    opacity: 0;
-  }
-
-  .hero-stat:nth-child(1) { animation-delay: 0.5s; }
-  .hero-stat:nth-child(2) { animation-delay: 0.7s; }
-  .hero-stat:nth-child(3) { animation-delay: 0.9s; }
-
-  @keyframes statsFadeIn {
-    to { opacity: 1; transform: translateY(0); }
-    from { opacity: 0; transform: translateY(20px); }
-  }
-
-  .stat-number {
-    font-size: 36px;
-    font-weight: 900;
-    color: var(--primary);
-    display: block;
-    line-height: 1;
-  }
-
-  .stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 5px; }
-
-  .hero-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
-    padding: 16px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 16px;
-    transition: all 0.3s;
-    border: none;
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-  }
-
-  .btn-primary:hover::before { left: 100%; }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(255,107,0,0.4); }
-
-  .btn-outline {
-    background: transparent;
-    color: white;
-    padding: 16px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    transition: all 0.3s;
-    display: inline-block;
-  }
-
-  .btn-outline:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-    transform: translateY(-3px);
-  }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    animation: scrollBounce 2s ease-in-out infinite;
-  }
-
-  @keyframes scrollBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(10px); }
-  }
-
-  .scroll-arrow {
-    width: 30px;
-    height: 30px;
-    border-right: 2px solid var(--primary);
-    border-bottom: 2px solid var(--primary);
-    transform: rotate(45deg);
-    opacity: 0.6;
-  }
-
-  /* ===== SECTIONS ===== */
-  section { padding: 90px 0; }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-
-  .section-tag {
-    display: inline-block;
-    background: rgba(255,107,0,0.1);
-    border: 1px solid rgba(255,107,0,0.3);
-    color: var(--primary);
-    padding: 6px 18px;
-    border-radius: 50px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 15px;
-  }
-
-  .section-title {
-    font-size: clamp(28px, 4vw, 48px);
-    font-weight: 800;
-    color: white;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-
-  .section-title span { color: var(--primary); }
-
-  .section-subtitle {
-    font-size: 14px;
-    color: var(--gray);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
-
-  .divider {
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    margin: 15px auto 0;
-    border-radius: 2px;
-  }
-
-  /* ===== ABOUT ===== */
-  #about { background: var(--darker); }
-
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: center;
-  }
-
-  .about-visual {
-    position: relative;
-  }
-
-  .about-img-box {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, #7B2D8B 100%);
-    border-radius: 20px;
-    height: 450px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .about-img-box::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent);
-  }
-
-  .about-icon-big {
-    font-size: 120px;
-    opacity: 0.3;
-    position: absolute;
-    bottom: -20px;
-    left: -20px;
-  }
-
-  .about-center-text {
-    text-align: center;
-    position: relative;
-    z-index: 1;
-  }
-
-  .about-center-text h3 {
-    font-size: 28px;
-    font-weight: 900;
-    color: white;
-    line-height: 1.2;
-  }
-
-  .about-center-text p { color: rgba(255,255,255,0.8); margin-top: 10px; }
-
-  .about-badge {
-    position: absolute;
-    bottom: -20px;
-    right: -20px;
-    background: var(--gold);
-    color: var(--dark);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    box-shadow: 0 10px 30px rgba(255,215,0,0.3);
-    animation: badgeRotate 10s linear infinite;
-  }
-
-  @keyframes badgeRotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  .about-badge span:first-child { font-size: 24px; line-height: 1; }
-  .about-badge span:last-child { font-size: 10px; }
-
-  .about-content { }
-
-  .about-content h2 {
-    font-size: clamp(24px, 3vw, 38px);
-    font-weight: 800;
-    color: white;
-    margin-bottom: 20px;
-    line-height: 1.3;
-  }
-
-  .about-content h2 span { color: var(--primary); }
-
-  .about-content p {
-    color: rgba(255,255,255,0.7);
-    line-height: 1.9;
-    margin-bottom: 15px;
-    font-size: 15px;
-  }
-
-  .about-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 30px;
-  }
-
-  .feature-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: rgba(255,255,255,0.8);
-    font-size: 14px;
-  }
-
-  .feature-icon {
-    width: 36px;
-    height: 36px;
-    background: rgba(255,107,0,0.15);
-    border: 1px solid rgba(255,107,0,0.3);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-    color: var(--primary);
-  }
-
-  /* ===== SERVICES ===== */
-  #services { background: var(--dark); }
-
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
-  }
-
-  .service-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 30px 25px;
-    border: 1px solid rgba(255,107,0,0.1);
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    cursor: default;
-  }
-
-  .service-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-  }
-
-  .service-card:hover::before { transform: scaleX(1); }
-
-  .service-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(255,107,0,0.3);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(255,107,0,0.1);
-  }
-
-  .service-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, rgba(255,107,0,0.2), rgba(233,69,96,0.2));
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    transition: all 0.3s;
-  }
-
-  .service-card:hover .service-icon {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    transform: scale(1.1) rotate(5deg);
-  }
-
-  .service-card h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 8px;
-  }
-
-  .service-card .en-name {
-    font-size: 11px;
-    color: var(--primary);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .service-card p {
-    font-size: 13px;
-    color: var(--gray);
-    line-height: 1.7;
-    margin-bottom: 15px;
-  }
-
-  .service-price {
-    color: var(--gold);
-    font-weight: 700;
-    font-size: 14px;
-  }
-
-  /* ===== GALLERY ===== */
-  #gallery { background: var(--darker); }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto;
-    gap: 15px;
-  }
-
-  .gallery-item {
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    background: var(--card-bg);
-    border: 1px solid rgba(255,107,0,0.1);
-    transition: all 0.4s;
-  }
-
-  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-  .gallery-item:nth-child(5) { grid-column: span 2; }
-
-  .gallery-visual {
-    width: 100%;
-    height: 100%;
-    min-height: 180px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .gallery-item:nth-child(1) .gallery-visual { min-height: 380px; }
-
-  .gallery-bg {
-    position: absolute;
-    inset: 0;
-    transition: transform 0.5s ease;
-  }
-
-  .gallery-item:hover .gallery-bg { transform: scale(1.1); }
-
-  .gallery-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
-  }
-
-  .gallery-item:hover .gallery-overlay { opacity: 1; }
-  .gallery-item:hover { transform: scale(1.02); border-color: rgba(255,107,0,0.4); }
-
-  .gallery-overlay h4 { color: white; font-size: 16px; font-weight: 700; }
-  .gallery-overlay p { color: rgba(255,255,255,0.7); font-size: 12px; }
-
-  /* Gym scene visuals */
-  .gym-scene {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 60px;
-    position: relative;
-  }
-
-  .gallery-item:nth-child(1) .gym-scene { font-size: 90px; }
-
-  /* ===== BOOKING ===== */
-  #booking { background: var(--dark); }
-
-  .booking-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 50px;
-    align-items: start;
-  }
-
-  .booking-info h2 {
-    font-size: clamp(22px, 3vw, 36px);
-    font-weight: 800;
-    color: white;
-    margin-bottom: 15px;
-  }
-
-  .booking-info h2 span { color: var(--primary); }
-
-  .booking-info p {
-    color: var(--gray);
-    line-height: 1.8;
-    margin-bottom: 30px;
-    font-size: 14px;
-  }
-
-  .booking-perks {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .perk {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: rgba(255,255,255,0.8);
-    font-size: 14px;
-  }
-
-  .perk-icon {
-    width: 40px;
-    height: 40px;
-    background: rgba(255,107,0,0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    color: var(--primary);
-  }
-
-  .booking-form {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 40px;
-    border: 1px solid rgba(255,107,0,0.15);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-  }
-
-  .form-group { margin-bottom: 20px; }
-
-  .form-group label {
-    display: block;
-    color: rgba(255,255,255,0.8);
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 10px;
-    padding: 12px 16px;
-    color: white;
-    font-size: 14px;
-    transition: all 0.3s;
-    font-family: inherit;
-    direction: rtl;
-  }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(255,107,0,0.1);
-    background: rgba(255,107,0,0.05);
-  }
-
-  .form-group input::placeholder,
-  .form-group textarea::placeholder { color: var(--gray); }
-
-  .form-group textarea { min-height: 100px; resize: vertical; }
-
-  .form-group select option { background: var(--card-bg); }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-  .form-submit {
-    width: 100%;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    margin-top: 10px;
-    font-family: inherit;
-  }
-
-  .form-submit:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(255,107,0,0.4);
-  }
-
-  .success-msg {
-    display: none;
-    background: rgba(0,200,100,0.1);
-    border: 1px solid rgba(0,200,100,0.3);
-    color: #00C864;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
-  }
-
-  .error-msg {
-    color: var(--accent);
-    font-size: 12px;
-    margin-top: 5px;
-    display: none;
-  }
-
-  .input-error { border-color: var(--accent) !important; }
-
-  /* ===== PRICING ===== */
-  #pricing { background: var(--darker); }
-
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    align-items: start;
-  }
-
-  .pricing-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 40px 30px;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: all 0.4s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pricing-card:hover { transform: translateY(-8px); }
-
-  .pricing-card.recommended {
-    background: linear-gradient(135deg, rgba(255,107,0,0.15), rgba(233,69,96,0.1));
-    border: 2px solid var(--primary);
-    transform: scale(1.05);
-  }
-
-  .pricing-card.recommended:hover { transform: scale(1.05) translateY(-8px); }
-
-  .recommended-badge {
-    position: absolute;
-    top: -1px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--primary), var(--accent
+/* ── COLORS ── */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --accent: #f59e0b;
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --white: #ffffff;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,.10);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.16);
+  --transition: all .3s ease;
+}
+```css
+:root {
+  --primary: #E8290B;
+  --primary-dark: #B51E08;
+  --primary-light: #FF5733;
+  --accent: #1A1A2E;
+  --bg: #F5F5F5;
+  --text: #1A1A1A;
+  --text-light: #666666;
+}
+```
+
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;direction:rtl}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+
+/* ── UTILITIES ── */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section{padding:80px 0}
+.section-title{font-size:2rem;font-weight:700;margin-bottom:8px;color:var(--text)}
+.section-sub{color:var(--text-light);margin-bottom:48px;font-size:1rem}
+.badge{display:inline-block;background:var(--primary-light);color:var(--primary-dark);padding:5px 16px;border-radius:50px;font-size:.78rem;font-weight:600;margin-bottom:12px;letter-spacing:.5px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.text-center{text-align:center}
+.flex{display:flex;align-items:center}
+.flex-between{display:flex;align-items:center;justify-content:space-between}
+.gap-16{gap:16px}
+.mt-8{margin-top:8px}
+.ar{display:block;font-size:1.1em}
+.en{display:block;font-size:.75em;color:var(--text-light);direction:ltr;text-align:inherit}
+
+/* ── NAVBAR ── */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.07);transition:var(--transition)}
+.navbar.scrolled{box-shadow:var(--shadow)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem;color:var(--text)}
+.nav-logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:24px;list-style:none}
+.nav-links a{font-size:.88rem;color:var(--text-light);transition:var(--transition)}
+.nav-links a:hover{color:var(--primary)}
+.nav-cta{background:var(--primary);color:var(--white)!important;padding:8px 20px;border-radius:8px;font-weight:600;font-size:.85rem;transition:var(--transition)}
+.nav-cta:hover{background:var(--primary-dark);color:var(--white)!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:2px;transition:var(--transition)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 60%,var(--accent) 100%);display:flex;align-items:center;padding-top:68px;color:var(--white)}
+.hero-content{max-width:600px}
+.hero h1{font-size:3rem;font-weight:800;line-height:1.15;margin-bottom:20px}
+.hero h1 .en{font-size:.45em;color:rgba(255,255,255,.75);margin-top:4px}
+.hero p{font-size:1.1rem;opacity:.9;margin-bottom:32px;line-height:1.7}
+.hero-stats{display:flex;gap:40px;margin-top:40px;padding-top:32px;border-top:1px solid rgba(255,255,255,.2)}
+.hero-stat .stat-number{font-size:2.2rem;font-weight:800;color:var(--white)}
+.hero-stat .stat-label{font-size:.8rem;opacity:.7}
+
+/* ── BUTTONS ── */
+.btn-primary{display:inline-block;background:var(--accent);color:var(--text)!important;padding:14px 32px;border-radius:10px;font-weight:700;font-size:.95rem;transition:var(--transition);cursor:pointer;border:none}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.btn-secondary{display:inline-block;background:rgba(255,255,255,.15);color:var(--white)!important;padding:14px 32px;border-radius:10px;font-weight:600;font-size:.95rem;border:2px solid rgba(255,255,255,.4);transition:var(--transition)}
+.btn-secondary:hover{background:rgba(255,255,255,.25)}
+.btns{display:flex;gap:16px;flex-wrap:wrap}
+
+/* ── CARDS ── */
+.card,.service-card,.testimonial-card{background:var(--white);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);transition:var(--transition)}
+.card:hover,.service-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card-icon{width:52px;height:52px;background:var(--primary-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:16px}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:6px}
+.card p,.service-card p{font-size:.88rem;color:var(--text-light);line-height:1.6}
+.price-tag{display:inline-block;background:var(--primary-light);color:var(--primary-dark);padding:4px 12px;border-radius:6px;font-weight:700;font-size:.85rem;margin-top:12px}
+
+/* ── IMAGE PLACEHOLDER ── */
+.img-placeholder{background:linear-gradient(135deg,var(--primary-light),var(--primary));border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:3rem;min-height:180px}
+.gallery-card{border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:var(--transition)}
+.gallery-card:hover{transform:scale(1.03)}
+.gallery-card .img-placeholder{border-radius:0;min-height:200px}
+
+/* ── ABOUT ── */
+.about{background:var(--white)}
+.stats-row{display:flex;gap:32px;flex-wrap:wrap;margin-top:32px}
+.stat{text-align:center;flex:1;min-width:100px}
+.stat-number{font-size:2.5rem;font-weight:800;color:var(--primary);display:block}
+.stat-label{font-size:.8rem;color:var(--text-light)}
+
+/* ── PRICING ── */
+.pricing-card{background:var(--white);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);text-align:center;transition:var(--transition);border:2px solid transparent}
+.pricing-card.featured{background:var(--primary);color:var(--white);border-color:var(--accent)}
+.pricing-card.featured h3,.pricing-card.featured .pricing-price,.pricing-card.featured li{color:var(--white)!important}
+.pricing-card:hover{transform:translateY(-4px)}
+.pricing-price{font-size:2.2rem;font-weight:800;color:var(--primary);margin:16px 0}
+.pricing-list{list-style:none;margin:20px 0 28px;text-align:right}
+.pricing-list li{padding:8px 0;font-size:.88rem;border-bottom:1px solid rgba(0,0,0,.05)}
+.pricing-list li::before{content:"✓ ";color:var(--accent);font-weight:700}
+.featured-badge{background:var(--accent);color:var(--text);padding:4px 14px;border-radius:50px;font-size:.72rem;font-weight:700;display:inline-block;margin-bottom:12px}
+
+/* ── FAQ ── */
+.faq{background:var(--bg)}
+.faq-item{background:var(--white);border-radius:var(--radius);margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden}
+.faq-question{padding:20px 24px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.95rem}
+.faq-question::after{content:"＋";font-size:1.2rem;color:var(--primary);transition:var(--transition);flex-shrink:0}
+.faq-item.active .faq-question::after{content:"−"}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 24px}
+.faq-answer p{padding:0 0 20px;color:var(--text-light);line-height:1.7;font-size:.9rem}
+
+/* ── TESTIMONIALS ── */
+.testimonial-card{background:var(--white);border-right:4px solid var(--primary)}
+.testimonial-text{font-size:.92rem;color:var(--text-light);line-height:1.7;margin-bottom:16px}
+.testimonial-author{font-weight:700;font-size:.88rem}
+.stars{color:var(--accent);font-size:1.1rem;margin-bottom:8px}
+
+/* ── BOOKING / CONTACT FORM ── */
+.form-card{background:var(--white);border-radius:var(--radius);padding:40px;box-shadow:var(--shadow)}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-weight:600;margin-bottom:6px;font-size:.88rem}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.9rem;font-family:inherit;transition:var(--transition);background:var(--bg)}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--primary)}
+.form-group textarea{min-height:120px;resize:vertical}
+.form-submit{width:100%;padding:14px;background:var(--primary);color:var(--white);border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:var(--transition)}
+.form-submit:hover{background:var(--primary-dark);transform:translateY(-1px)}
+
+/* ── CONTACT ── */
+.contact-info{display:flex;flex-direction:column;gap:16px}
+.contact-item{display:flex;align-items:center;gap:14px;padding:16px;background:var(--white);border-radius:10px;box-shadow:var(--shadow)}
+.contact-icon{width:42px;height:42px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-label{font-size:.72rem;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px}
+.contact-value{font-weight:600;font-size:.9rem}
+
+/* ── FOOTER ── */
+footer{background:#1e293b;color:#94a3b8;text-align:center;padding:32px 24px;font-size:.85rem}
+footer a{color:var(--accent)}
+
+/* ── WHATSAPP FLOAT ── */
+.whatsapp-float{position:fixed;bottom:28px;left:28px;z-index:9999;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:var(--transition);text-decoration:none}
+.whatsapp-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6)}
+
+/* ── FADE-IN ANIMATIONS ── */
+.fade-in,.fade-in-up,.fade-in-left,.fade-in-right{opacity:0;transition:opacity .7s ease,transform .7s ease}
+.fade-in-up{transform:translateY(30px)}
+.fade-in-left{transform:translateX(30px)}
+.fade-in-right{transform:translateX(-30px)}
+.fade-in.visible,.fade-in-up.visible,.fade-in-left.visible,.fade-in-right.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hero h1{font-size:2rem}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--white);flex-direction:column;padding:20px;box-shadow:var(--shadow);border-top:1px solid #e2e8f0}
+  .nav-links.active{display:flex}
+  .hamburger{display:flex}
+  .hero-stats{flex-wrap:wrap;gap:20px}
+  .btns{flex-direction:column}
+  .section{padding:56px 0}
+  .stats-row{gap:16px}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="nav-logo">
+      <span class="ar">نادي القوة الذهبية</span>
+      <span class="en">Golden Power Gym</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#hero"><span class="ar">الرئيسية</span><span class="en">Home</span></a></li>
+      <li><a href="#about"><span class="ar">عنا</span><span class="en">About</span></a></li>
+      <li><a href="#services"><span class="ar">خدماتنا</span><span class="en">Services</span></a></li>
+      <li><a href="#gallery"><span class="ar">معرض</span><span class="en">Gallery</span></a></li>
+      <li><a href="#pricing"><span class="ar">الأسعار</span><span class="en">Pricing</span></a></li>
+      <li><a href="#faq"><span class="ar">أسئلة</span><span class="en">FAQ</span></a></li>
+      <li><a href="#contact"><span class="ar">تواصل</span><span class="en">Contact</span></a></li>
+    </ul>
+    <a href="#pricing" class="nav-cta btn-primary"><span class="ar">انضم الآن</span><span class="en">Join Now</span></a>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="badge"><span class="ar">🏆 الأفضل في الرياض</span><span class="en">🏆 Best in Riyadh</span></div>
+    <h1>
+      <span class="ar">حوّل جسدك — ابدأ رحلتك اليوم</span>
+      <span class="en">Transform Your Body — Start Your Journey Today</span>
+    </h1>
+    <p>
+      <span class="ar">نادي القوة الذهبية هو وجهتك المثالية للياقة البدنية في الرياض. أجهزة حديثة، مدربون محترفون، وبيئة محفزة تجعلك تتجاوز حدودك كل يوم.</span>
+      <span class="en">Golden Power Gym is your ultimate fitness destination in Riyadh. State-of-the-art equipment, certified trainers, and a motivating environment that pushes you beyond your limits every single day.</span>
+    </p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary"><span class="ar">ابدأ الآن</span><span class="en">Start Now</span></a>
+      <a href="#about" class="btn-secondary"><span class="ar">اعرف أكثر</span><span class="en">Learn More</span></a>
+    </div>
+    <div class="img-placeholder">🏋️</div>
+  </div>
+</section>
+
+<section class="about section" id="about">
+  <div class="container">
+    <div class="section-title">
+      <span class="ar">من نحن</span>
+      <span class="en">About Us</span>
+    </div>
+    <p class="section-sub">
+      <span class="ar">تأسس نادي القوة الذهبية عام 2015 في قلب الرياض بهدف واحد: تمكين كل شخص من الوصول إلى أفضل نسخة من نفسه. نحن نؤمن بأن اللياقة البدنية ليست مجرد هواية، بل أسلوب حياة. يضم ناديانا أحدث الأجهزة الرياضية العالمية، وفريقاً من المدربين المعتمدين دولياً، وبرامج تدريبية مصممة لكل المستويات من المبتدئين إلى الرياضيين المحترفين.</span>
+      <span class="en">Golden Power Gym was founded in 2015 in the heart of Riyadh with one mission: to empower every individual to reach their best self. We believe fitness is not just a hobby — it's a lifestyle. Our gym features world-class equipment, internationally certified trainers, and training programs designed for all levels from beginners to professional athletes.</span>
+    </p>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-number">9+</div>
+        <div class="stat-label"><span class="ar">سنوات خبرة</span><span class="en">Years Experience</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">5,200+</div>
+        <div class="stat-label"><span class="ar">عضو نشط</span><span class="en">Active Members</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">25+</div>
+        <div class="stat-label"><span class="ar">مدرب معتمد</span><span class="en">Certified Trainers</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">1,800م²</div>
+        <div class="stat-label"><span class="ar">مساحة النادي</span><span class="en">Gym Area</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services section" id="services">
+  <div class="container">
+    <div class="section-title">
+      <span class="ar">خدماتنا</span>
+      <span class="en">Our Services</span>
+    </div>
+    <p class="section-sub">
+      <span class="ar">نقدم مجموعة متكاملة من الخدمات الرياضية لتلبية جميع احتياجاتك</span>
+      <span class="en">We offer a comprehensive range of fitness services to meet all your needs</span>
+    </p>
+    <div class="services-grid">
+
+      <div class="service-card card">
+        <div class="img-placeholder">🏋️</div>
+        <h3><span class="ar">تدريب الأثقال الحرة</span><span class="en">Free Weights Training</span></h3>
+        <p><span class="ar">منطقة مجهزة بالكامل بأثقال حرة من 2 كجم حتى 100 كجم، مع حوامل الباربل والدمبل المتنوعة.</span><span class="en">Fully equipped free weights area with dumbbells from 2kg to 100kg, barbell racks and complete benching stations.</span></p>
+        <div class="price">من <strong>150 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">🧘</div>
+        <h3><span class="ar">اليوغا والتأمل</span><span class="en">Yoga & Meditation</span></h3>
+        <p><span class="ar">جلسات يوغا يومية بإشراف مدربات معتمدات، تساعد على تحسين المرونة وتقليل التوتر وتعزيز الصحة النفسية.</span><span class="en">Daily yoga sessions under certified instructors to improve flexibility, reduce stress and enhance mental wellbeing.</span></p>
+        <div class="price">من <strong>200 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">🥊</div>
+        <h3><span class="ar">الملاكمة والكيك بوكسينج</span><span class="en">Boxing & Kickboxing</span></h3>
+        <p><span class="ar">صالة ملاكمة متخصصة مع أكياس تدريب احترافية وحلبة تدريب كاملة. مناسبة للدفاع عن النفس واللياقة العالية.</span><span class="en">Specialized boxing hall with professional training bags and a full training ring. Ideal for self-defense and high-intensity cardio.</span></p>
+        <div class="price">من <strong>250 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">🚴</div>
+        <h3><span class="ar">الدراجات الهوائية الثابتة</span><span class="en">Spinning Classes</span></h3>
+        <p><span class="ar">حصص سبينينج جماعية مكثفة مع موسيقى محفزة ومدربين متخصصين. محرق ممتاز للسعرات الحرارية.</span><span class="en">Intense group spinning classes with motivating music and specialized instructors. An excellent calorie-burning workout.</span></p>
+        <div class="price">من <strong>180 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">🏊</div>
+        <h3><span class="ar">السباحة والأكوا فيتنس</span><span class="en">Swimming & Aqua Fitness</span></h3>
+        <p><span class="ar">حمام سباحة أولمبي مع برامج أكوا فيتنس مخصصة للرجال والنساء بجداول منفصلة.</span><span class="en">Olympic-size swimming pool with dedicated aqua fitness programs for men and women with separate schedules.</span></p>
+        <div class="price">من <strong>300 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">👤</div>
+        <h3><span class="ar">التدريب الشخصي</span><span class="en">Personal Training</span></h3>
+        <p><span class="ar">مدرب شخصي خاص بك يصمم برنامجاً غذائياً ورياضياً متكاملاً يناسب أهدافك وجدولك الزمني.</span><span class="en">Your own personal trainer designs a complete nutrition and fitness program tailored to your goals and schedule.</span></p>
+        <div class="price">من <strong>500 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">🥗</div>
+        <h3><span class="ar">الإرشاد الغذائي</span><span class="en">Nutrition Counseling</span></h3>
+        <p><span class="ar">جلسات استشارية مع أخصائي تغذية معتمد لوضع خطة غذائية متوازنة تدعم أهدافك الرياضية وصحتك العامة.</span><span class="en">Consultation sessions with a certified nutritionist to build a balanced diet plan supporting your fitness goals and overall health.</span></p>
+        <div class="price">من <strong>350 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+      <div class="service-card card">
+        <div class="img-placeholder">🧖</div>
+        <h3><span class="ar">السبا والاسترخاء</span><span class="en">Spa & Recovery</span></h3>
+        <p><span class="ar">منطقة سبا متكاملة تشمل الساونا وحوض الجاكوزي وغرف التدليك لاسترجاع طاقتك بعد التمرين المكثف.</span><span class="en">Complete spa area including sauna, jacuzzi and massage rooms to help your body recover after intense training sessions.</span></p>
+        <div class="price">من <strong>400 ريال</strong> / شهرياً</div>
+        <a href="#pricing" class="btn-primary"><span class="ar">احجز الآن</span><span class="en">Book Now</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="gallery section" id="gallery">
+  <div class="container">
+    <div class="section-title">
+      <span class="ar">معرض الصور</span>
+      <span class="en">Photo Gallery</span>
+    </div>
+    <p class="section-sub">
+      <span class="ar">اكتشف أجواء نادينا العصري وإمكاناته الرائعة</span>
+      <span class="en">Discover the modern atmosphere and amazing facilities of our gym</span>
+    </p>
+    <div class="gallery-grid">
+      <div class="gallery-card card">
+        <div class="img-placeholder">🏋️</div>
+        <p><span class="ar">قاعة الأثقال الرئيسية</span><span class="en">Main Weights Hall</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🚴</div>
+        <p><span class="ar">صالة السبينينج</span><span class="en">Spinning Studio</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🥊</div>
+        <p><span class="ar">حلبة الملاكمة</span><span class="en">Boxing Ring</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🏊</div>
+        <p><span class="ar">حمام السباحة</span><span class="en">Swimming Pool</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🧘</div>
+        <p><span class="ar">استوديو اليوغا</span><span class="en">Yoga Studio</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🧖</div>
+        <p><span class="ar">منطقة السبا</span><span class="en">Spa Area</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">💪</div>
+        <p><span class="ar">غرفة التدريب الشخصي</span><span class="en">Personal Training Room</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🍎</div>
+        <p><span class="ar">بار التغذية الصحية</span><span class="en">Nutrition Bar</span></p>
+      </div>
+      <div class="gallery-card card">
+        <div class="img-placeholder">🚿</div>
+        <p><span class="ar">غرف تبديل الملابس</span><span class="en">Locker Rooms</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section booking-section" id="booking">
+  <div class="container">
+    <div class="section-title">
+      <span class="ar">احجز تجربتك المجانية</span>
+      <span class="en">Book Your Free Trial</span>
+    </div>
+    <p class="section-sub">
+      <span class="ar">احجز جلسة تجريبية مجانية الآن واكتشف الفرق بنفسك</span>
+      <span class="en">Book a free trial session now and discover the difference yourself</span>
+    </p>
+    <form class="booking-form">
+      <div class="form-group">
+        <label for="full-name"><span class="ar">الاسم الكامل</span><span class="en">Full Name</span></label>
+        <input type="text" id="full-name" name="full-name" placeholder="أدخل اسمك الكامل / Enter your full name" required />
+      </div>
+      <div class="form-group">
+        <label for="phone"><span class="ar">رقم الجوال</span><span class="en">Phone Number</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="05XXXXXXXX" required />
+      </div>
+      <div class="form-group">
+        <label for="email"><span class="ar">البريد الإلكتروني</span><span class="en">Email Address</span></label>
+        <input type="email" id="email" name="email" placeholder="example@email.com" />
+      </div>
+      <div class="form-group">
+        <label for="service"><span class="ar">الخدمة المطلوبة</span><span class="en">Desired Service</span></label>
+        <select id="service" name="service">
+          <option value=""><span class="ar">اختر الخدمة</span> / Choose a service</option>
+          <option value="weights">تدريب الأثقال / Free Weights</option>
+          <option value="yoga">اليوغا / Yoga</option>
+          <option value="boxing">الملاكمة / Boxing</option>
+          <option value="spinning">السبينينج / Spinning</option>
+          <option value="swimming">السباحة / Swimming</option>
+          <option value="personal">تدريب شخصي / Personal Training</option>
+          <option value="nutrition">إرشاد غذائي / Nutrition</option>
+          <option value="spa">السبا / Spa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="booking-date"><span class="ar">تاريخ الحجز المفضل</span><span class="en">Preferred Booking Date</span></label>
+        <input type="date" id="booking-date" name="booking-date" required />
+      </div>
+      <div class="form-group">
+        <label for="time-slot"><span class="ar">الوقت المفضل</span><span class="en">Preferred Time</span></label>
+        <select id="time-slot" name="time-slot">
+          <option value=""><span class="ar">اختر الوقت</span> / Choose a time</option>
+          <option value="morning">6:00 ص - 10:00 ص (صباحاً / Morning)</option>
+          <option value="noon">10:00 ص - 2:00 م (ظهراً / Noon)</option>
+          <option value="afternoon">2:00 م - 6:00 م (عصراً / Afternoon)</option>
+          <option value="evening">6:00 م - 11:00 م (مساءً / Evening)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="notes"><span class="ar">ملاحظات إضافية</span><span class="en">Additional Notes</span></label>
+        <textarea id="notes" name="notes" rows="4" placeholder="أي ملاحظات أو متطلبات خاصة / Any notes or special requirements"></textarea>
+      </div>
+      <button type="submit" class="btn-primary"><span class="ar">أرسل الحجز</span><span class="en">Submit Booking</span></button>
+    </form>
+  </div>
+</section>
+
+<section class="pricing section" id="pricing">
+  <div class="container">
+    <div class="section-title">
+      <span class="ar">خطط الاشتراك</span>
+      <span class="en">Membership Plans</span>
+    </div>
+    <p class="section-sub">
+      <span class="ar">اختر الخطة التي تناسب أهدافك وميزانيتك</span>
+      <span class="en">Choose the plan that fits your goals and budget</span>
+    </p>
+    <div class="pricing-grid">
+
+      <div class="pricing-card card">
+        <div class="plan-name"><span class="ar">الأساسي</span><span class="en">Basic</span></div>
+        <div class="plan-price"><strong>199</strong> <span>ريال / شهر</span><br /><small>SAR / Month</small></div>
+        <ul class="plan-features">
+          <li>✅ <span class="ar">دخول غير محدود لقاعة الأثقال</span><span class="en">Unlimited weights hall access</span></li>
+          <li>✅ <span class="ar">أجهزة الكارديو والتمارين</span><span class="en">Cardio & exercise machines</span></li>
+          <li>✅ <span class="ar">غرف تبديل الملابس</span><span class="en">Locker rooms access</span></li>
+          <li>✅ <span class="ar">4 حصص جماعية شهرياً</span><span class="en">4 group classes per month</span></li>
+          <li>❌ <span class="ar">تدريب شخصي</span><span class="en">Personal training</span></li>
+          <li>❌ <span class="ar">الوصول للسبا</span><span class="en">Spa access</span></li>
+          <li>❌ <span class="ar">استشارة غذائية</span><span class="en">Nutrition consultation</span></li>
+        </ul>
+        <a href="#booking" class="btn-secondary"><span class="ar">اشترك الآن</span><span class="en">Subscribe Now</span></a>
+      </div>
+
+      <div class="pricing-card featured card">
+        <div class="badge"><span class="ar">الأكثر طلباً</span><span class="en">Most Popular</span></div>
+        <div class="plan-name"><span class="ar">المتميز</span><span class="en">Premium</span></div>
+        <div class="plan-price"><strong>399</strong> <span>ريال / شهر</span><br /><small>SAR / Month</small></div>
+        <ul class="plan-features">
+          <li>✅ <span class="ar">كل مميزات الأساسي</span><span class="en">All Basic features</span></li>
+          <li>✅ <span class="ar">حصص جماعية غير محدودة</span><span class="en">Unlimited group classes</span></li>
+          <li>✅ <span class="ar">4 جلسات تدريب شخصي</span><span class="en">4 personal training sessions</span></li>
+          <li>✅ <span class="ar">دخول حمام السباحة</span><span class="en">Swimming pool access</span></li>
+          <li>✅ <span class="ar">استشارة غذائية شهرية</span><span class="en">Monthly nutrition consultation</span></li>
+          <li>✅ <span class="ar">2 جلسة سبا شهرياً</span><span class="en">2 spa sessions per month</span></li>
+          <li>❌ <span class="ar">تدريب شخصي يومي</span><span class="en">Daily personal training</span></li>
+        </ul>
+        <a href="#booking" class="btn-primary"><span class="ar">اشترك الآن</span><span class="en">Subscribe Now</span></a>
+      </div>
+
+      <div class="pricing-card card">
+        <div class="plan-name"><span class="ar">النخبة</span><span class="en">Elite</span></div>
+        <div class="plan-price"><strong>699</strong> <span>ريال / شهر</span><br /><small>SAR / Month</small></div>
+        <ul class="plan-features">
+          <li>✅ <span class="ar">كل مميزات المتميز</span><span class="en">All Premium features</span></li>
+          <li>✅ <span class="ar">تدريب شخصي غير محدود</span><span class="en">Unlimited personal training</span></li>
+          <li>✅ <span class="ar">خطة غذائية أسبوعية</span><span class="en">Weekly nutrition plan</span></li>
+          <li>✅ <span class="ar">دخول غير محدود للسبا</span><span class="en">Unlimited spa access</span></li>
+          <li>✅ <span class="ar">ملابس رياضية مجانية</span><span class="en">Complimentary sportswear</span></li>
+          <li>✅ <span class="ar">أولوية الحجز في الحصص</span><span class="en">Priority class bookings</span></li>
+          <li>✅ <span class="ar">تحليل جسم شهري</span><span class="en">Monthly body composition analysis</span></li>
+        </ul>
+        <a href="#booking" class="btn-secondary"><span class="ar">اشترك الآن</span><span class="en">Subscribe Now</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section testimonials-section" id="testimonials">
+  <div class="container">
+    <div class="section-title">
+      <span class="ar">آراء أعضائنا</span>
+      <span class="en">Member Testimonials</span>
+    </div>
+    <p class="section-sub">
+      <span class="ar">تجارب حقيقية من أعضاء نادي القوة الذهبية</span>
+      <span class="en">Real experiences from Golden Power Gym members</span>
+    </p>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p><span class="ar">"انضممت للنادي قبل 8 أشهر وكان القرار الأفضل في حياتي. فقدت 22 كيلو وبنيت جسماً قوياً بفضل المدرب أحمد وفريق التغذية. الأجهزة ممتازة والجو الرياضي رائع."</span><span class="en">"I joined the gym 8 months ago and it was the best decision of my life. I lost 22 kg and built a strong body thanks to trainer Ahmed and the nutrition team. Great equipment and amazing sports atmosphere."</span></p>
+        <div class="reviewer">
+          <div class="img-placeholder">👨</div>
+          <div>
+            <strong><span class="ar">خالد العتيبي</span><span class="en">Khalid Al-Otaibi</span></strong>
+            <small><span class="ar">عضو متميز — الرياض</span><span class="en">Premium Member — Riyadh</span></small>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p><span class="ar">"النادي يقدم خدمة استثنائية للسيدات. قسم النساء مجهز بالكامل ومريح جداً. المدربات متخصصات ومحترفات. أنصح كل سيدة بالانضمام."</span><span class="en">"The gym provides exceptional service for women. The ladies' section is fully equipped and very comfortable. The female trainers are specialized and professional. I recommend it to every woman."</span></p>
+        <div class="reviewer">
+          <div class="img-placeholder">👩</div>
+          <div>
+            <strong><span class="ar">نورة الشهراني</span><span class="en">Nora Al-Shahrani</span></strong>
+            <small><span class="ar">عضو نخبة — الرياض</span><span class="en">Elite Member — Riyadh</span></small>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p><span class="ar">"كنت أبحث عن نادي يجمع بين الجودة والسعر المناسب ووجدته في نادي القوة الذهبية. برنامج السبينينج رائع وأساعدني على تحسين لياقتي القلبية بشكل ملحوظ."</span><span class="en">"I was looking for a gym that combines quality and good value and I found it at Golden Power Gym. The
 
 <script>
-(function() {
-  function revealAll() {
-    document.querySelectorAll('.fade-in,.fade-in-left,.fade-in-right,[data-aos]').forEach(function(el){
-      el.style.opacity='1'; el.style.transform='none'; el.classList.add('visible','aos-animate');
+(function(){
+  // Make all fade-in elements visible via IntersectionObserver
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
     });
-  }
-  if('IntersectionObserver' in window){
-    var obs=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); e.target.style.opacity='1'; e.target.style.transform='none'; }});
-    },{threshold:0.1});
-    document.querySelectorAll('.fade-in,.fade-in-left,.fade-in-right,[data-aos]').forEach(function(el){ obs.observe(el); });
-  } else { revealAll(); }
+  },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.fade-in,.fade-in-up,.fade-in-left,.fade-in-right,[data-aos]').forEach(function(el){obs.observe(el);});
+
+  // Reveal anything already in viewport
   setTimeout(function(){
-    document.querySelectorAll('.fade-in,.fade-in-left,.fade-in-right').forEach(function(el){
-      var r=el.getBoundingClientRect(); if(r.top<window.innerHeight){ el.classList.add('visible'); el.style.opacity='1'; el.style.transform='none'; }
+    document.querySelectorAll('.fade-in,.fade-in-up,.fade-in-left,.fade-in-right').forEach(function(el){
+      if(el.getBoundingClientRect().top<window.innerHeight){el.classList.add('visible');}
     });
   },100);
-  var nav=document.querySelector('nav,#navbar,.navbar,header');
-  if(nav) window.addEventListener('scroll',function(){ nav.classList.toggle('scrolled',window.scrollY>50); },{passive:true});
+
+  // Safety net — force show everything after 1.5s regardless
+  setTimeout(function(){
+    document.querySelectorAll('.fade-in,.fade-in-up,.fade-in-left,.fade-in-right').forEach(function(el){
+      el.classList.add('visible');el.style.opacity='1';el.style.transform='none';
+    });
+  },1500);
+
+  // Navbar scroll effect
+  var nav=document.querySelector('.navbar,nav,header');
+  if(nav)window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>60);},{passive:true});
+
+  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
-    a.addEventListener('click',function(e){ var t=document.querySelector(this.getAttribute('href')); if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }});
+    a.addEventListener('click',function(e){
+      var t=document.querySelector(this.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+      var mn=document.querySelector('.nav-links');if(mn)mn.classList.remove('active');
+    });
   });
-  var hb=document.querySelector('.hamburger,.menu-toggle,#menu-btn,.nav-toggle');
-  var mn=document.querySelector('.nav-links,.nav-menu,.mobile-menu,#nav-links');
-  if(hb&&mn) hb.addEventListener('click',function(){ mn.classList.toggle('active'); this.classList.toggle('active'); });
-  document.querySelectorAll('.faq-item,.accordion-item').forEach(function(item){
-    var q=item.querySelector('.faq-question,.accordion-header,h3,h4');
-    var a=item.querySelector('.faq-answer,.accordion-body,p');
-    if(q&&a){ a.style.cssText='max-height:0;overflow:hidden;transition:max-height 0.35s ease'; q.style.cursor='pointer';
-      q.addEventListener('click',function(){ var open=a.style.maxHeight!=='0px'&&a.style.maxHeight!=='0';
-        document.querySelectorAll('.faq-item .faq-answer,.accordion-item .accordion-body').forEach(function(x){ x.style.maxHeight='0'; });
-        document.querySelectorAll('.faq-item,.accordion-item').forEach(function(i){ i.classList.remove('active'); });
-        if(!open){ a.style.maxHeight=a.scrollHeight+100+'px'; item.classList.add('active'); }
+
+  // Mobile hamburger
+  var hb=document.querySelector('.hamburger');
+  var mn=document.querySelector('.nav-links');
+  if(hb&&mn)hb.addEventListener('click',function(){mn.classList.toggle('active');this.classList.toggle('active');});
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var q=item.querySelector('.faq-question');
+    var a=item.querySelector('.faq-answer');
+    if(q&&a){
+      q.addEventListener('click',function(){
+        var open=item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(function(i){
+          i.classList.remove('active');
+          var ans=i.querySelector('.faq-answer');
+          if(ans)ans.style.maxHeight='0';
+        });
+        if(!open){item.classList.add('active');a.style.maxHeight=a.scrollHeight+40+'px';}
       });
     }
   });
+
+  // Form submit
   document.querySelectorAll('form').forEach(function(f){
-    f.addEventListener('submit',function(e){ e.preventDefault();
-      var b=f.querySelector('button[type=submit],input[type=submit]');
-      if(b){ var o=b.textContent; b.textContent='✅ تم الإرسال!'; b.style.background='#00d4aa'; b.disabled=true;
-        setTimeout(function(){ b.textContent=o; b.style.background=''; b.disabled=false; f.reset(); },3000); }
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var b=f.querySelector('[type=submit]');
+      if(b){var o=b.textContent;b.textContent='✅ تم الإرسال!';b.style.background='#10b981';b.disabled=true;
+        setTimeout(function(){b.textContent=o;b.style.background='';b.disabled=false;f.reset();},3000);}
     });
   });
-  setTimeout(revealAll,1500);
+
+  // Counter animation
+  var cobs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      var el=e.target,target=parseFloat(el.dataset.count||el.textContent.replace(/[^0-9.]/g,'')),suffix=el.textContent.replace(/[0-9.]/g,'').trim(),s=0,dur=1500,step=target/(dur/16);
+      if(!target)return;
+      var t=setInterval(function(){s+=step;if(s>=target){s=target;clearInterval(t);}el.textContent=(Number.isInteger(target)?Math.floor(s):s.toFixed(1))+suffix;},16);
+      cobs.unobserve(el);
+    });
+  },{threshold:0.5});
+  document.querySelectorAll('.stat-number,.counter').forEach(function(el){cobs.observe(el);});
 })();
 </script>
 </body>
